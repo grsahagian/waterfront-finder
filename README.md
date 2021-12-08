@@ -19,9 +19,10 @@ The result is a list of all addresses within the given state that are
 deemed to be 'Waterfront Property'.
 
 <h3>Usage</h3>
+
 1. Install package dependencies stipulated in requirements.txt file
 2. Inside `run.py` change the `state` variable according to preference.
-3. <em>(Optional)</em> This script takes a long, long time to run, so you may have to run the script many times with each function isolated, following the correct order of operations: `wpl.get_nodes(), wpl.get_wf(1), wpl.get_wf(2), wpl.get_wf(3), wpl.get_wf(4), wpl.get_full_address()` 
+3. (Optional) This script takes a long, long time to run, so you may have to run the script many times with each function isolated, following the correct order of operations: `wpl.get_nodes(), wpl.get_wf(1), wpl.get_wf(2), wpl.get_wf(3), wpl.get_wf(4), wpl.get_full_address()` 
 4. Run `python run.py` in terminal 
 
 
