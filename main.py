@@ -74,7 +74,7 @@ class WaterfrontPropertyLocator:
                 bodies.append(details)
 
             bodies = pd.DataFrame(bodies)
-            bodies.to_excel(f'wf_data/{self.loc}_water.xlsx')
+            # bodies.to_excel(f'wf_data/{self.loc}_water.xlsx')
             return bodies
 
 
@@ -91,7 +91,8 @@ class WaterfrontPropertyLocator:
             current = perf_counter()
             print(f'Grabbing way # {v} ({k} of {len(flat_members)})...')
             print(f'Current Runtime: {int(current - start)} seconds')
-            for retry in range(3):
+            num_tries = 5
+            for tries in range(num_tries):
                 try:
                     query = f'way({v});'
                     result = api3.get(query, verbosity='geom')
@@ -103,6 +104,11 @@ class WaterfrontPropertyLocator:
                         lat_lons.append(pair)
                 except Exception:
                     traceback.print_exc()
+                    continue
+                else:
+                    break
+            else:
+                print(f'{num_tries} errors in a row, moving on...')
 
 
         lat_lons = pd.DataFrame(lat_lons) # add coordinate data to our list
@@ -194,9 +200,7 @@ class WaterfrontPropertyLocator:
             'authority': 'www.openstreetmap.org',
             'sec-ch-ua': '"Google Chrome";v="95", "Chromium";v="95", ";Not A Brand";v="99"',
             'accept': '*/*',
-            'x-csrf-token': 'hAAyg/5iQPIIOwEQDsA9HKHe8Ib7MvnB4iiBg9wvIeqfEcy6gIUwYILnALwGr1LZsXpi++AdGPO/+W45xJ0VGQ==',
             'sec-ch-ua-mobile': '?0',
-            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',
             'x-requested-with': 'XMLHttpRequest',
             'sec-ch-ua-platform': '"macOS"',
             'sec-fetch-site': 'same-origin',
@@ -204,7 +208,6 @@ class WaterfrontPropertyLocator:
             'sec-fetch-dest': 'empty',
             'referer': 'https://www.openstreetmap.org/search?query=20%20Coveside%20Lane',
             'accept-language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
-            'cookie': '_osm_session=709868dd092f3d11f20b9e337837c6e0;'
         }
         details = []
         for index, row in df.iterrows():

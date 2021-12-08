@@ -8,7 +8,7 @@ if not f_exists:
     os.makedirs(path)
 
 
-state = 'Connecticut' # full name of any State
+state = 'Vermont' # e.g. Texas, Colorado, etc.
 wpl = WaterfrontPropertyLocator(state) # instantiate class w/ specified state
 
 # Find all boundary node coordinates of lakes in region
